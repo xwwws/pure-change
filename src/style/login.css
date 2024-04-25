@@ -39,7 +39,7 @@
 }
 
 .avatar {
-  width: 350px;
+  width: 80px;
   height: 80px;
 }
 
@@ -72,7 +72,7 @@
   }
 
   .avatar {
-    width: 280px;
+    width: 80px;
     height: 80px;
   }
 }

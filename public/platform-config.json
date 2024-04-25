@@ -1,6 +1,6 @@
 {
-  "Version": "5.4.0",
-  "Title": "PureAdmin",
+  "Version": "1.0.0",
+  "Title": "深云智合",
   "FixedHeader": true,
   "HiddenSideBar": false,
   "MultiTagsCache": false,
@@ -11,8 +11,8 @@
   "OverallStyle": "light",
   "Grey": false,
   "Weak": false,
-  "HideTabs": false,
-  "HideFooter": false,
+  "HideTabs": true,
+  "HideFooter": true,
   "Stretch": false,
   "SidebarStatus": true,
   "EpThemeColor": "#409EFF",
@@ -21,6 +21,6 @@
   "MenuArrowIconNoTransition": false,
   "CachingAsyncRoutes": false,
   "TooltipEffect": "light",
-  "ResponsiveStorageNameSpace": "responsive-",
+  "ResponsiveStorageNameSpace": "deepchem-",
   "MenuSearchHistory": 6
 }

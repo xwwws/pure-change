@@ -23,7 +23,7 @@ const {
 </script>
 
 <template>
-  <div class="navbar bg-[#fff] shadow-sm shadow-[rgba(0,21,41,0.08)]">
+  <div class="navbar bg-[#fff] shadow-sm shadow-[rgba(0,21,41,0.08)] pr-2">
     <topCollapse
       v-if="device === 'mobile'"
       class="hamburger-container"
@@ -39,12 +39,12 @@ const {
     <mixNav v-if="layout === 'mix'" />
 
     <div v-if="layout === 'vertical'" class="vertical-header-right">
-      <!-- 菜单搜索 -->
-      <Search id="header-search" />
-      <!-- 全屏 -->
-      <FullScreen id="full-screen" />
-      <!-- 消息通知 -->
-      <Notice id="header-notice" />
+<!--      &lt;!&ndash; 菜单搜索 &ndash;&gt;-->
+<!--      <Search id="header-search" />-->
+<!--      &lt;!&ndash; 全屏 &ndash;&gt;-->
+<!--      <FullScreen id="full-screen" />-->
+<!--      &lt;!&ndash; 消息通知 &ndash;&gt;-->
+<!--      <Notice id="header-notice" />-->
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">
@@ -63,13 +63,13 @@ const {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
-        class="set-icon navbar-bg-hover"
-        title="打开系统配置"
-        @click="onPanel"
-      >
-        <IconifyIconOffline :icon="Setting" />
-      </span>
+<!--      <span-->
+<!--        class="set-icon navbar-bg-hover"-->
+<!--        title="打开系统配置"-->
+<!--        @click="onPanel"-->
+<!--      >-->
+<!--        <IconifyIconOffline :icon="Setting" />-->
+<!--      </span>-->
     </div>
   </div>
 </template>

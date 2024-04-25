@@ -123,11 +123,11 @@ onBeforeUnmount(() => {
       :is-active="pureApp.sidebar.opened"
       @toggleClick="toggleSideBar"
     />
-    <LeftCollapse
-      v-if="device !== 'mobile'"
-      :is-active="pureApp.sidebar.opened"
-      @toggleClick="toggleSideBar"
-    />
+<!--    <LeftCollapse-->
+<!--      v-if="device !== 'mobile'"-->
+<!--      :is-active="pureApp.sidebar.opened"-->
+<!--      @toggleClick="toggleSideBar"-->
+<!--    />-->
   </div>
 </template>
 
