@@ -36,7 +36,7 @@ import {
  * 如何排除文件请看：https://cn.vitejs.dev/guide/features.html#negative-patterns
  */
 const modules: Record<string, any> = import.meta.glob(
-  ["./modules/**/*.ts", "!./modules/**/remaining.ts"],
+  [ "./modules/**/*.ts", "!./modules/**/remaining.ts" ],
   {
     eager: true
   }
@@ -101,21 +101,13 @@ export function resetRouter() {
 }
 
 /** 路由白名单 */
-const whiteList = ["/login"];
-
-const { VITE_HIDE_HOME } = import.meta.env;
-
-router.beforeEach((to: ToRouteType, _from, next) => {
-  if (to.meta?.keepAlive) {
-    handleAliveRoute(to, "add");
-    // 页面整体刷新和点击标签页刷新
-    if (_from.name === undefined || _from.name === "Redirect") {
-      handleAliveRoute(to);
-    }
-  }
-  const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
-  NProgress.start();
-  const externalLink = isUrl(to?.name as string);
+const whiteList = [ "/login" ];
+/**
+ * 处理浏览器页签title
+ * @param to
+ * @param externalLink
+ */
+const browserTabTitle = (to: ToRouteType, externalLink: boolean) => {
   if (!externalLink) {
     to.matched.some(item => {
       if (!item.meta.title) return "";
@@ -124,18 +116,36 @@ router.beforeEach((to: ToRouteType, _from, next) => {
       else document.title = item.meta.title as string;
     });
   }
+};
+router.beforeEach((to: ToRouteType, _from, next) => {
+  if (to.meta?.keepAlive) {
+    handleAliveRoute(to, "add");
+    // 页面整体刷新和点击标签页刷新
+    if (_from.name === undefined || _from.name === "Redirect") {
+      handleAliveRoute(to);
+    }
+  }
+
+  // 打开进度条
+  NProgress.start();
+  const externalLink = isUrl(to?.name as string);
+  // 处理浏览器页签title
+  browserTabTitle(to, externalLink);
+
   /** 如果已经登录并存在登录信息后不能跳转到路由白名单，而是继续保持在当前页面 */
   function toCorrectRoute() {
-    whiteList.includes(to.fullPath) ? next(_from.fullPath) : next();
+    if (whiteList.includes(to.fullPath)) {
+      next(_from.fullPath);
+    } else {
+      next();
+    }
   }
+
+  const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
   if (Cookies.get(multipleTabsKey) && userInfo) {
     // 无权限跳转403页面
     if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
       next({ path: "/error/403" });
-    }
-    // 开启隐藏首页后在浏览器地址栏手动输入首页welcome路由则跳转到404页面
-    if (VITE_HIDE_HOME === "true" && to.fullPath === "/welcome") {
-      next({ path: "/error/404" });
     }
     if (_from?.name) {
       // name为超链接

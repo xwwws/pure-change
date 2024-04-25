@@ -28,7 +28,6 @@ export function viteBuildInfo(): Plugin {
       outDir = resolvedConfig.build?.outDir ?? "dist";
     },
     buildStart() {
-      console.log(boxen(welcomeMessage, boxenOptions));
       if (config.command === "build") {
         startTime = dayjs(new Date());
       }
