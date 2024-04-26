@@ -1,6 +1,5 @@
 export default {
   path: "/fighting",
-
   redirect: "/fighting/index",
   meta: {
     title: "加油"
