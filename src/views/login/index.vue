@@ -29,33 +29,33 @@ const { title } = useNav();
 
 const ruleForm = reactive({
   username: "admin",
-  password: "admin123"
+  password: "deepchem"
 });
-
+const { loginUser } = useUserStoreHook();
 const onLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      loading.value = true;
-      useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: "admin123" })
-        .then(res => {
-          if (res.success) {
-            // 获取后端路由
-            return initRouter().then(() => {
-              router.push(getTopMenu(true).path).then(() => {
-                message("登录成功", { type: "success" });
-              });
-            });
-          } else {
-            message("登录失败", { type: "error" });
-          }
-        })
-        .finally(() => (loading.value = false));
-    } else {
-      return fields;
-    }
+  const valid = await formEl.validate();
+  if (!valid) {
+    message("登录失败", { type: "error" });
+    return;
+  }
+  // btn loading
+  loading.value = true;
+  // 登录请求
+  await loginUser({
+    username: ruleForm.username,
+    passwd: ruleForm.password
   });
+  // 初始化路由
+  await initRouter();
+  // 跳转页面
+  // 获取路由中第一个页面的path
+  const { path } = getTopMenu(true);
+  await router.push(path)
+  message("登录成功", { type: "success" });
+
+  loading.value = false;
+
 };
 
 /** 使用公共函数，避免`removeEventListener`失效 */
@@ -76,14 +76,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="select-none">
-    <img :src="bg" class="wave" />
+    <img :src="bg" class="wave"/>
     <div class="login-container">
       <div class="img">
-        <component :is="toRaw(illustration)" />
+        <component :is="toRaw(illustration)"/>
       </div>
       <div class="login-box">
         <div class="login-form">
-          <img :src="logo" class="avatar" />
+          <img :src="logo" class="avatar"/>
           <Motion>
             <h2 class="outline-none">{{ title }}</h2>
           </Motion>
