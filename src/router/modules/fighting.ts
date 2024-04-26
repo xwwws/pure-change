@@ -1,5 +1,7 @@
 export default {
   path: "/fighting",
+
+  redirect: "/fighting/index",
   meta: {
     title: "加油"
   },
@@ -9,7 +11,7 @@ export default {
       name: "Fighting",
       component: () => import("@/views/fighting/index.vue"),
       meta: {
-        title: "加油"
+        title: "加油1"
       }
     }
   ]

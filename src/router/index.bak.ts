@@ -40,7 +40,7 @@ const modules: Record<string, any> = import.meta.glob(
   {
     eager: true
   }
-)
+);
 
 /** 原始静态路由（未做任何处理） */
 const routes = [];
@@ -58,14 +58,13 @@ export const constantRoutes: Array<RouteRecordRaw> = formatTwoStageRoutes(
 export const constantMenus: Array<RouteComponent> = ascending(
   routes.flat(Infinity)
 ).concat(...remainingRouter);
-console.log(constantMenus);
 
 /** 不参与菜单的路由 */
 export const remainingPaths = Object.keys(remainingRouter).map(v => {
   return remainingRouter[v].path;
 });
-/** 创建路由实例 */
 
+/** 创建路由实例 */
 export const router: Router = createRouter({
   history: getHistoryMode(import.meta.env.VITE_ROUTER_HISTORY),
   routes: constantRoutes.concat(...(remainingRouter as any)),
