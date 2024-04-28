@@ -23,7 +23,10 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
   return response.data;
 }, error => {
-  message('请求出错了')
+  console.log(error);
+  message('请求出错了',{
+    type: "error"
+  })
   return Promise.reject(error);
 });
 

@@ -1,5 +1,4 @@
 // import "@/utils/sso";
-import Cookies from "js-cookie";
 import { getConfig } from "@/config";
 import NProgress from "@/utils/progress";
 import { buildHierarchyTree } from "@/utils/tree";
@@ -29,7 +28,7 @@ import {
   type DataInfo,
   userKey,
   removeToken,
-  multipleTabsKey
+  multipleTabsKey, TOKEN
 } from "@/utils/auth";
 
 /** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件，除了 remaining.ts 文件
@@ -141,13 +140,8 @@ router.beforeEach((to: ToRouteType, _from, next) => {
       next();
     }
   }
-
-  const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
-  if (Cookies.get(multipleTabsKey) && userInfo) {
-    // 无权限跳转403页面
-    if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
-      next({ path: "/error/403" });
-    }
+  // 如果存在token  可以进行正常访问页面
+  if (storageLocal().getItem(TOKEN)) {
     if (_from?.name) {
       // name为超链接
       if (externalLink) {
